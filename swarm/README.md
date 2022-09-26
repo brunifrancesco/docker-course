@@ -6,6 +6,7 @@
   - go to settings and on the second netork adapter select the *host only* and then the newly created network adapter at the step above
   - open the VM, create a file called *network-config.yaml* under */etc/netplan* with this content (spaces/indentation are relevant):
     
+    ```
     ethernets:                                                                                                                  
       en0ps3:                                                                                                                      
         dhcp4: yes
@@ -13,12 +14,13 @@
         dhcp4: false
         addresses: ["192.168.X.Y"]
     version: 2
+    ```
   
   where X is the same number from the net adapter creation; Y is starting from 111 for the first machine, 112 for the second etc. etc.
   
   - run
     
-    netplan apply
+        netplan apply
   
   - ping the other machines to see if connection works.
 
