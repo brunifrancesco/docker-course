@@ -1,0 +1,21 @@
+version: "3.1"
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "8080:80"
+  mongo:
+    image: mongo
+    volumes:
+      - ./data:/data/db
+  app:
+    image: student_api
+    build: app
+    hostname: "backend.{{.Task.Slot}}"
+    environment:
+      MONGO_HOST: mongo
+      REPLICA_ID: {{.Task.Slot}}
+    deploy:
+      replicas: 3 
+    
