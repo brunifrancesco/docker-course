@@ -8,7 +8,7 @@
 
 Create an empty folder called *data*:
   
-  mkdir data
+    mkdir data
 
 # RUN the application locally
 
