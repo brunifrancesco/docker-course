@@ -6,7 +6,7 @@ services:
     volumes:
       - ./data:/data/db
   app:
-    image: student_api
+    image: 127.0.0.1:5000/student_api
     ports:
       - 1980:8000
     build: app

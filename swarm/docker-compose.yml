@@ -4,18 +4,29 @@ services:
   nginx:
     image: nginx
     ports:
-      - "8080:80"
+      - "8081:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    deploy:
+      placement: 
+        constraints: 
+          - node.role == manager
   mongo:
     image: mongo
     volumes:
       - ./data:/data/db
   app:
-    image: student_api
-    build: app
+    image: student_api:latest
+    build: ../app
     hostname: "backend.{{.Task.Slot}}"
     environment:
-      MONGO_HOST: mongo
-      REPLICA_ID: {{.Task.Slot}}
+      - MONGO_HOST=mongo
+      - REPLICA_ID={{.Task.Slot}}
     deploy:
-      replicas: 3 
-    
+      replicas: 2 
+  registry:
+    environment:
+      - REGISTRY_ADDRESS=0.0.0.0
+    ports:
+      - "5000:5000"
+    image: registry:2

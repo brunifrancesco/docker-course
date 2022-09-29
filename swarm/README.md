@@ -8,9 +8,9 @@
     
     ```
     ethernets:                                                                                                                  
-      en0ps3:                                                                                                                      
+      enp0s3:                                                                           
         dhcp4: yes
-      en0ps8:
+      enp0s8:
         dhcp4: false
         addresses: ["192.168.X.Y"]
     version: 2
@@ -29,13 +29,17 @@
 
 # Deploy swarm
 
-        docker stack deploy -c stack.yaml student_app
+    docker stack deploy -c stack.yaml student_app
 
 # Visualize cluster
 
-	docker service create \
-	  --name=viz \
-	  --publish=8080:8080/tcp \
-	  --constraint=node.role==manager \
-	  --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-	  dockersamples/visualizer
+	  docker service create --name=viz --publish=8080:8080/tcp --constraint=node.role==manager --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock dockersamples/visualizer
+
+# Deploy registry service
+
+    docker service create --name registry --publish published=5000,target=5000 registry:2
+
+# Build and push image
+    
+    docker-compose build
+    docker-compose push
